@@ -13,7 +13,6 @@ LFS_MAGIC = b'version https://git-lfs.github.com/spec/v1'
 
 
 def _load_pipeline(model_path: str):
-    # Detect Git LFS pointer
     try:
         with open(model_path, 'rb') as f:
             head = f.read(64)

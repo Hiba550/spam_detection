@@ -163,6 +163,12 @@ label {
   margin-bottom: 10px; color: var(--text);
   cursor: pointer;
 }
+
+.input-container {
+  position: relative;
+  margin-bottom: 8px;
+}
+
 textarea {
   width: 100%; resize: vertical; min-height: 110px;
   color: var(--text); background: var(--panel); border: 2px solid var(--border); 
@@ -179,6 +185,46 @@ textarea:focus {
 textarea:hover {
   border-color: var(--border-hover);
   cursor: text;
+}
+
+/* Live Detection Styles */
+.live-result {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 80px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: liveSlide 0.3s ease-out;
+}
+
+@keyframes liveSlide {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.live-result.spam {
+  background: rgba(220, 38, 38, 0.9);
+  color: white;
+  border: 1px solid var(--danger);
+}
+
+.live-result.clean {
+  background: rgba(5, 150, 105, 0.9);
+  color: white;
+  border: 1px solid var(--success);
+}
+
+.live-result.analyzing {
+  background: rgba(217, 119, 6, 0.9);
+  color: white;
+  border: 1px solid var(--warning);
 }
 
 .file-input-wrapper {
@@ -221,7 +267,200 @@ input[type="file"] {
   color: var(--primary);
 }
 
-/* Audio Preview Styles */
+/* Live Recording Styles */
+.recording-section, .upload-section {
+  margin-bottom: 24px;
+}
+
+.recording-section h3, .upload-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  margin: 32px 0;
+  text-align: center;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.section-divider span {
+  padding: 0 16px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.mic-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.mic-btn {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+}
+
+.mic-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+}
+
+.mic-btn.recording {
+  background: linear-gradient(135deg, var(--danger), #b91c1c);
+  animation: recordPulse 1.5s infinite;
+}
+
+@keyframes recordPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.mic-icon {
+  font-size: 16px;
+}
+
+.recording-status {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.recording-status.active {
+  color: var(--danger);
+  animation: textPulse 2s infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.recording-visualizer {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(37, 99, 235, 0.1));
+  border: 2px solid rgba(37, 99, 235, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.recording-visualizer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  animation: progressPulse 2s infinite ease-in-out;
+}
+
+@keyframes progressPulse {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+.waveform {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.waveform canvas {
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  height: auto;
+}
+
+.recording-timer {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;
+}
+
+.recorded-audio {
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.05), rgba(5, 150, 105, 0.1));
+  border: 2px solid rgba(5, 150, 105, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.recorded-audio::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(135deg, var(--success), #059669);
+}
+
+.recorded-audio .audio-info {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+.recorded-audio audio {
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.recorded-audio .btn {
+  width: 100%;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.2);
+}
 .audio-preview {
   margin-top: 16px; padding: 20px; 
   background: rgba(37, 99, 235, 0.05);
@@ -277,7 +516,21 @@ input[type="file"] {
   box-shadow: 0 8px 30px rgba(37, 99, 235, 0.4);
   cursor: pointer;
 }
-.btn.primary:active {
+.btn.secondary {
+  background: var(--gradient-secondary);
+  color: white;
+  box-shadow: 0 4px 20px rgba(100, 116, 139, 0.3);
+}
+.btn.secondary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(100, 116, 139, 0.4);
+  cursor: pointer;
+}
+.btn.secondary.active {
+  background: var(--gradient-primary);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+}
+.btn.primary:active, .btn.secondary:active {
   transform: translateY(-1px);
   transition: all 0.1s ease;
 }

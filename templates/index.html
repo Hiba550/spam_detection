@@ -26,7 +26,10 @@
         <h2>Text Analysis</h2>
         <form id="text-form">
           <label for="message">Message Content</label>
-          <textarea id="message" name="message" rows="4" placeholder="Enter message content for analysis"></textarea>
+          <div class="input-container">
+            <textarea id="message" name="message" rows="4" placeholder="Enter message content for analysis"></textarea>
+            <div class="live-result hidden" id="live-result"></div>
+          </div>
           <div class="actions">
             <button type="submit" class="btn primary">
               <span class="btn-text">Analyze</span>
@@ -40,30 +43,74 @@
 
       <section class="card">
         <h2>Audio Analysis</h2>
-        <p class="hint">Upload audio recording for transcription and spam detection</p>
-        <form id="audio-form">
-          <label for="audio">Audio File</label>
-          <div class="file-input-wrapper">
-            <input type="file" id="audio" name="audio" accept="audio/*" />
-            <div class="file-input-overlay">
-              <span class="file-input-text">Choose file or drag here</span>
-            </div>
+        <p class="hint">Upload audio recording or record live for transcription and spam detection</p>
+        
+        <!-- Live Recording Section -->
+        <div class="recording-section">
+          <h3>Live Recording</h3>
+          <div class="mic-controls">
+            <button type="button" class="btn mic-btn" id="start-recording">
+              <span class="mic-icon"></span>
+              <span class="btn-text">Start Recording</span>
+            </button>
+            <button type="button" class="btn secondary hidden" id="stop-recording">
+              <span class="btn-text">Stop Recording</span>
+            </button>
+            <span class="recording-status" id="recording-status"></span>
           </div>
-          <div id="audio-preview" class="audio-preview hidden">
+          
+          <div class="recording-visualizer hidden" id="recording-visualizer">
+            <div class="waveform">
+              <canvas id="waveform-canvas" width="400" height="80"></canvas>
+            </div>
+            <div class="recording-timer" id="recording-timer">00:00</div>
+          </div>
+          
+          <div class="recorded-audio hidden" id="recorded-audio">
             <div class="audio-info">
-              <span class="audio-name"></span>
-              <span class="audio-size"></span>
+              <span class="audio-name">Recorded Audio</span>
+              <span class="audio-duration" id="recorded-duration"></span>
             </div>
-            <audio controls preload="metadata"></audio>
-          </div>
-          <div class="actions">
-            <button type="submit" class="btn primary">
-              <span class="btn-text">Analyze</span>
+            <audio controls id="recorded-player"></audio>
+            <button type="button" class="btn primary" id="analyze-recorded">
+              <span class="btn-text">Analyze Recording</span>
               <span class="btn-loader hidden"></span>
             </button>
-            <span id="audio-status" class="status"></span>
           </div>
-        </form>
+        </div>
+        
+        <div class="section-divider">
+          <span>OR</span>
+        </div>
+        
+        <!-- File Upload Section -->
+        <div class="upload-section">
+          <h3>Upload Audio File</h3>
+          <form id="audio-form">
+            <label for="audio">Audio File</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="audio" name="audio" accept="audio/*" />
+              <div class="file-input-overlay">
+                <span class="file-input-text">Choose file or drag here</span>
+              </div>
+            </div>
+            <div id="audio-preview" class="audio-preview hidden">
+              <div class="audio-info">
+                <span class="audio-name"></span>
+                <span class="audio-size"></span>
+              </div>
+              <audio controls preload="metadata"></audio>
+            </div>
+            <div class="actions">
+              <button type="submit" class="btn primary">
+                <span class="btn-text">Analyze</span>
+                <span class="btn-loader hidden"></span>
+              </button>
+              <span id="audio-status" class="status"></span>
+            </div>
+          </form>
+        </div>
+        
         <details id="transcript-box" class="hidden">
           <summary>Transcript</summary>
           <pre id="transcript"></pre>
