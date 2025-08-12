@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spam Detection System</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <div class="brand">
+        <div class="title">
+          <h1>Spam Detection System</h1>
+          <p>text and audio analysis</p>
+        </div>
+      </div>
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span class="status-text">Ready</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Text Analysis</h2>
+        <form id="text-form">
+          <label for="message">Message Content</label>
+          <textarea id="message" name="message" rows="4" placeholder="Enter message content for analysis"></textarea>
+          <div class="actions">
+            <button type="submit" class="btn primary">
+              <span class="btn-text">Analyze</span>
+              <span class="btn-loader hidden"></span>
+            </button>
+            <span id="text-status" class="status"></span>
+          </div>
+        </form>
+        <div id="text-result" class="result hidden"></div>
+      </section>
+
+      <section class="card">
+        <h2>Audio Analysis</h2>
+        <p class="hint">Upload audio recording for transcription and spam detection</p>
+        <form id="audio-form">
+          <label for="audio">Audio File</label>
+          <div class="file-input-wrapper">
+            <input type="file" id="audio" name="audio" accept="audio/*" />
+            <div class="file-input-overlay">
+              <span class="file-input-text">Choose file or drag here</span>
+            </div>
+          </div>
+          <div id="audio-preview" class="audio-preview hidden">
+            <div class="audio-info">
+              <span class="audio-name"></span>
+              <span class="audio-size"></span>
+            </div>
+            <audio controls preload="metadata"></audio>
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn primary">
+              <span class="btn-text">Analyze</span>
+              <span class="btn-loader hidden"></span>
+            </button>
+            <span id="audio-status" class="status"></span>
+          </div>
+        </form>
+        <details id="transcript-box" class="hidden">
+          <summary>Transcript</summary>
+          <pre id="transcript"></pre>
+        </details>
+        <div id="audio-result" class="result hidden"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Spam Detection</p>
+    </footer>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
